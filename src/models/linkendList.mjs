@@ -1,5 +1,5 @@
 import Node from "./node.mjs";
-import City from "./City.mjs";
+import City from "./bussines.mjs";
 
 export default class LinkedList{
     #head
