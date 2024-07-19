@@ -3,10 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complejidad</title>
+    <link rel="stylesheet" href="./styles.css">
+    <title>Business Directory</title>
 </head>
 <body>
-    <ul id="list-bussines"></ul>
-    <script src="./src/controllers/read.mjs"></script>
+    <header>
+        <h1>Business Directory</h1>
+    </header>
+
+    <div>
+        <button id="list-business" class="neon-button">Insert Dataset</button>
+        <h2>Insertion Time</h2>
+        <section class="content">
+            <canvas id="myChart" height="200" width="300"></canvas>
+        </section>
+    </div>
+
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="search-id">
+        <button id="search-button" class="neon-button">Search</button>
+        <h2>Search Time</h2>
+        <section class="content">
+            <canvas id="secondChart" height="200" width="200"></canvas>
+        </section>
+    </div>
+
+    <div>
+        <button id="bubble-sort-button" class="neon-button">Bubble Sort</button>
+        <h2>Bubble Sort Time</h2>
+        <section class="content">
+            <canvas id="bubbleSortChart" height="200" width="300"></canvas>
+        </section>
+    </div>
+
+    <div>
+        <button id="merge-sort-button" class="neon-button">Merge Sort</button>
+        <h2>Merge Sort Time</h2>
+        <section class="content">
+            <canvas id="mergeSortChart" height="200" width="300"></canvas>
+        </section>
+    </div>
+
+    <div>
+        <button id="radix-sort-button" class="neon-button">Radix Sort</button>
+        <h2>Radix Sort Time</h2>
+        <section class="content">
+            <canvas id="radixSortChart" height="200" width="300"></canvas>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script type="module" src="./src/controllers/main.mjs"></script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+body {
+    background-color: rgb(23, 22, 22);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    color: rgb(214, 213, 213);
+}
+
+h2 {
+    color: rgb(214, 213, 213);
+}
+
+input {
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 2rem;
+}
+
+div {
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+/* Neon button styles */
+.neon-button {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+    margin-bottom: 15px;
+}
+
+.neon-button::before,
+.neon-button::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.neon-button::before {
+    border-top-color: #fff;
+    border-right-color: #fff;
+    animation: neon-glow 1.5s infinite alternate;
+}
+
+.neon-button::after {
+    border-bottom-color: #fff;
+    border-left-color: #fff;
+    animation: neon-glow 1.5s infinite alternate-reverse;
+}
+
+.neon-button:hover {
+    color: #000;
+    background-color: #fff;
+}
+
+/* Keyframes for neon glow animation */
+@keyframes neon-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+    }
+}
