@@ -1,86 +1,109 @@
-// src/model/Array.mjs
-export default class ArrayListMix {
+export default class LinkedListMix {
     constructor() {
-        this.items = [];
+        this.head = null;
     }
 
-    insert(item) {
-        this.items.push(item);
-    }
-
-    toNumber(business) {
-        if (typeof business !== 'string' || business === undefined) {
-            return 0; // Devuelve un valor por defecto si el business no es una cadena
+    insert(business) {
+        const newNode = { data: business, next: null };
+        if (!this.head) {
+            this.head = newNode;
+        } else {
+            let current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = newNode;
         }
-        return business
-            .split("")
-            .reduce((acc, char) => acc + char.charCodeAt(0), 0);
     }
 
-    linearSearch(target) {
-        return this.items.find(item => item.business === target);
+    linearSearch(id) {
+        let current = this.head;
+        while (current) {
+            if (current.data.id === id) {
+                return current.data;
+            }
+            current = current.next;
+        }
+        return null;
     }
 
     bubbleSort() {
-        let len = this.items.length;
-        for (let i = 0; i < len; i++) {
-            for (let j = 0; j < len - i - 1; j++) {
-                if (this.items[j].business > this.items[j + 1].business) {
-                    [this.items[j], this.items[j + 1]] = [this.items[j + 1], this.items[j]];
+        let iterations = 0;
+        let swapped;
+        do {
+            swapped = false;
+            let current = this.head;
+            while (current && current.next) {
+                iterations++;
+                if (current.data.id > current.next.data.id) {
+                    [current.data, current.next.data] = [current.next.data, current.data];
+                    swapped = true;
+                }
+                current = current.next;
+            }
+        } while (swapped);
+        return iterations;
+    }
+
+    mergeSort() {
+        let iterations = 0;
+
+        const merge = (left, right) => {
+            let result = null;
+
+            if (!left) return right;
+            if (!right) return left;
+
+            iterations++;
+
+            if (left.data.id <= right.data.id) {
+                result = left;
+                result.next = merge(left.next, right);
+            } else {
+                result = right;
+                result.next = merge(left, right.next);
+            }
+
+            return result;
+        };
+
+        const mergeSortRecursive = (node) => {
+            if (!node || !node.next) {
+                return node;
+            }
+
+            let middle = getMiddle(node);
+            let nextToMiddle = middle.next;
+
+            middle.next = null;
+
+            let left = mergeSortRecursive(node);
+            let right = mergeSortRecursive(nextToMiddle);
+
+            return merge(left, right);
+        };
+
+        const getMiddle = (node) => {
+            if (!node) return node;
+            let slow = node;
+            let fast = node.next;
+
+            while (fast !== null) {
+                fast = fast.next;
+                if (fast !== null) {
+                    slow = slow.next;
+                    fast = fast.next;
                 }
             }
-        }
-        return this.items;
-    }
+            return slow;
+        };
 
-    mergeSort(arr = this.items) {
-        if (arr.length <= 1) {
-            return arr;
-        }
-        const middle = Math.floor(arr.length / 2);
-        const left = arr.slice(0, middle);
-        const right = arr.slice(middle);
-
-        return this.merge(this.mergeSort(left), this.mergeSort(right));
-    }
-
-    merge(left, right) {
-        let resultArray = [], leftIndex = 0, rightIndex = 0;
-
-        while (leftIndex < left.length && rightIndex < right.length) {
-            if (left[leftIndex].business < right[rightIndex].business) {
-                resultArray.push(left[leftIndex]);
-                leftIndex++;
-            } else {
-                resultArray.push(right[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        return resultArray
-            .concat(left.slice(leftIndex))
-            .concat(right.slice(rightIndex));
+        this.head = mergeSortRecursive(this.head);
+        return iterations;
     }
 
     radixSort() {
-        let maxLength = Math.max(...this.items.map(item => this.toNumber(item.business).toString().length));
-        let buckets = Array.from({ length: 10 }, () => []);
-
-        for (let i = 0; i < maxLength; i++) {
-            while (this.items.length) {
-                let temp = this.items.shift();
-                let tempNumber = this.toNumber(temp.business);
-                let digit = Math.floor(tempNumber / Math.pow(10, i)) % 10;
-                buckets[digit].push(temp);
-            }
-
-            for (let j = 0; j < 10; j++) {
-                while (buckets[j].length) {
-                    this.items.push(buckets[j].shift());
-                }
-            }
-        }
-
-        return this.items;
+        // Radix sort is generally not implemented for linked lists due to its complexity with non-array structures.
+        return 0;
     }
 }
