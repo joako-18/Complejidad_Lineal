@@ -1,3 +1,4 @@
+//Business.mjs
 export default class Business {
     constructor(business, name, address, city, state) {
         this.business = business;

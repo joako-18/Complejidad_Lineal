@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 for (const item of data) {
                     const businessEntity = new Business(item.business, item.name, item.address, item.city, item.state);
                     arrayListInstance.insert(businessEntity);
-                    arrayListData.push(businessEntity); // Store in array
+                    arrayListData.push(businessEntity);
                 }
                 const arrayEndTime = performance.now();
                 const arrayInsertionTime = arrayEndTime - arrayStartTime;
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 for (const item of data) {
                     const businessEntity = new Business(item.business, item.name, item.address, item.city, item.state);
                     linkedListInstance.insert(businessEntity);
-                    linkedListData.push(businessEntity); // Store in linked list
+                    linkedListData.push(businessEntity);
                 }
                 const linkedListEndTime = performance.now();
                 const linkedListInsertionTime = linkedListEndTime - linkedListStartTime;
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             function searchById(id) {
                 console.log("Starting search...");
                 const resultContainer = document.getElementById('search-results');
-                resultContainer.innerHTML = ''; // Clear previous results
+                resultContainer.innerHTML = '';
 
                 const arraySearchStartTime = performance.now();
                 const arrayResult = arrayListData.find(item => item.id === id);
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const linkedListSearchTime = linkedListSearchEndTime - linkedListSearchStartTime;
                 console.log(`LinkedList search time: ${linkedListSearchTime} ms`);
 
-                // Display search results
                 if (arrayResult) {
                     resultContainer.innerHTML += `<div><h2>ArrayList Result:</h2><p>ID: ${arrayResult.id}</p><p>Name: ${arrayResult.name}</p><p>Address: ${arrayResult.address}</p><p>City: ${arrayResult.city}</p><p>State: ${arrayResult.state}</p></div>`;
                 } else {
@@ -106,12 +105,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         const arrayBubbleSortEndTime = performance.now();
                         const arrayBubbleSortTime = arrayBubbleSortEndTime - arrayBubbleSortStartTime;
                         console.log(`ArrayList bubble sort time: ${arrayBubbleSortTime} ms`);
+                        console.log(`ArrayList bubble sort iterations: ${arrayBubbleSortIterations}`);
 
                         const linkedListBubbleSortStartTime = performance.now();
                         const linkedListBubbleSortIterations = linkedListInstance.bubbleSort();
                         const linkedListBubbleSortEndTime = performance.now();
                         const linkedListBubbleSortTime = linkedListBubbleSortEndTime - linkedListBubbleSortStartTime;
                         console.log(`LinkedList bubble sort time: ${linkedListBubbleSortTime} ms`);
+                        console.log(`LinkedList bubble sort iterations: ${linkedListBubbleSortIterations}`);
 
                         updateChart('bubbleSortChart', 'Bubble Sort Time', [linkedListBubbleSortTime, arrayBubbleSortTime]);
                         updateChart('bubbleSortIterationsChart', 'Bubble Sort Iterations', [linkedListBubbleSortIterations, arrayBubbleSortIterations]);
@@ -125,12 +126,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         const arrayMergeSortEndTime = performance.now();
                         const arrayMergeSortTime = arrayMergeSortEndTime - arrayMergeSortStartTime;
                         console.log(`ArrayList merge sort time: ${arrayMergeSortTime} ms`);
+                        console.log(`ArrayList merge sort iterations: ${arrayMergeSortIterations}`);
 
                         const linkedListMergeSortStartTime = performance.now();
                         const linkedListMergeSortIterations = linkedListInstance.mergeSort();
                         const linkedListMergeSortEndTime = performance.now();
                         const linkedListMergeSortTime = linkedListMergeSortEndTime - linkedListMergeSortStartTime;
                         console.log(`LinkedList merge sort time: ${linkedListMergeSortTime} ms`);
+                        console.log(`LinkedList merge sort iterations: ${linkedListMergeSortIterations}`);
 
                         updateChart('mergeSortChart', 'Merge Sort Time', [linkedListMergeSortTime, arrayMergeSortTime]);
                         updateChart('mergeSortIterationsChart', 'Merge Sort Iterations', [linkedListMergeSortIterations, arrayMergeSortIterations]);
@@ -144,10 +147,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         const arrayRadixSortEndTime = performance.now();
                         const arrayRadixSortTime = arrayRadixSortEndTime - arrayRadixSortStartTime;
                         console.log(`ArrayList radix sort time: ${arrayRadixSortTime} ms`);
+                        console.log(`ArrayList radix sort iterations: ${arrayRadixSortIterations}`);
 
-                        // Note: Radix sort is not implemented for linked lists in this example
-                        const linkedListRadixSortTime = 0;
-                        const linkedListRadixSortIterations = 0;
+                        const linkedListRadixSortStartTime = performance.now();
+                        const linkedListRadixSortIterations = linkedListInstance.radixSort();
+                        const linkedListRadixSortEndTime = performance.now();
+                        const linkedListRadixSortTime = linkedListRadixSortEndTime - linkedListRadixSortStartTime;
+                        console.log(`LinkedList radix sort time: ${linkedListRadixSortTime} ms`);
+                        console.log(`LinkedList radix sort iterations: ${linkedListRadixSortIterations}`);
 
                         updateChart('radixSortChart', 'Radix Sort Time', [linkedListRadixSortTime, arrayRadixSortTime]);
                         updateChart('radixSortIterationsChart', 'Radix Sort Iterations', [linkedListRadixSortIterations, arrayRadixSortIterations]);
@@ -187,8 +194,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }
                 });
             }
-        })
-        .catch((error) => {
-            console.error('Error fetching business data:', error);
         });
 });

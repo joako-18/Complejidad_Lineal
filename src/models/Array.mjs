@@ -1,3 +1,4 @@
+// Array.mjs
 export default class ArrayListMix {
     constructor() {
         this.array = [];
@@ -74,9 +75,11 @@ export default class ArrayListMix {
 
     radixSort() {
         let iterations = 0;
+
         const getMax = (arr) => {
             let max = arr[0].id;
             for (let i = 1; i < arr.length; i++) {
+                iterations++; // Incrementar las iteraciones aquí también
                 if (arr[i].id > max) {
                     max = arr[i].id;
                 }
@@ -94,6 +97,7 @@ export default class ArrayListMix {
             }
 
             for (let i = 1; i < 10; i++) {
+                iterations++;
                 count[i] += count[i - 1];
             }
 
@@ -104,6 +108,7 @@ export default class ArrayListMix {
             }
 
             for (let i = 0; i < arr.length; i++) {
+                iterations++;
                 arr[i] = output[i];
             }
         };

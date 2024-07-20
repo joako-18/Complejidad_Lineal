@@ -16,17 +16,6 @@ export default class LinkedListMix {
         }
     }
 
-    linearSearch(id) {
-        let current = this.head;
-        while (current) {
-            if (current.data.id === id) {
-                return current.data;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
     bubbleSort() {
         let iterations = 0;
         let swapped;
@@ -47,63 +36,117 @@ export default class LinkedListMix {
 
     mergeSort() {
         let iterations = 0;
-
-        const merge = (left, right) => {
-            let result = null;
-
-            if (!left) return right;
-            if (!right) return left;
-
-            iterations++;
-
-            if (left.data.id <= right.data.id) {
-                result = left;
-                result.next = merge(left.next, right);
-            } else {
-                result = right;
-                result.next = merge(left, right.next);
-            }
-
-            return result;
-        };
-
-        const mergeSortRecursive = (node) => {
-            if (!node || !node.next) {
-                return node;
-            }
-
-            let middle = getMiddle(node);
-            let nextToMiddle = middle.next;
-
-            middle.next = null;
-
-            let left = mergeSortRecursive(node);
-            let right = mergeSortRecursive(nextToMiddle);
-
-            return merge(left, right);
-        };
-
-        const getMiddle = (node) => {
-            if (!node) return node;
-            let slow = node;
-            let fast = node.next;
-
-            while (fast !== null) {
-                fast = fast.next;
-                if (fast !== null) {
-                    slow = slow.next;
-                    fast = fast.next;
-                }
-            }
-            return slow;
-        };
-
-        this.head = mergeSortRecursive(this.head);
+        const [sortedHead, newIterations] = this.mergeSortRecursive(this.head);
+        this.head = sortedHead;
+        iterations += newIterations;
         return iterations;
     }
 
+    mergeSortRecursive(head) {
+        if (!head || !head.next) {
+            return [head, 0];
+        }
+        const middle = this.getMiddle(head);
+        const nextOfMiddle = middle.next;
+        middle.next = null;
+
+        const [left, leftIterations] = this.mergeSortRecursive(head);
+        const [right, rightIterations] = this.mergeSortRecursive(nextOfMiddle);
+
+        const [sortedHead, mergeIterations] = this.sortedMerge(left, right);
+        return [sortedHead, leftIterations + rightIterations + mergeIterations];
+    }
+
+    getMiddle(head) {
+        if (!head) return head;
+        let slow = head, fast = head;
+        while (fast.next && fast.next.next) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    sortedMerge(a, b) {
+        if (!a) return [b, 0];
+        if (!b) return [a, 0];
+
+        let result;
+        let iterations = 0;
+        if (a.data.id <= b.data.id) {
+            result = a;
+            const [next, newIterations] = this.sortedMerge(a.next, b);
+            result.next = next;
+            iterations += newIterations;
+        } else {
+            result = b;
+            const [next, newIterations] = this.sortedMerge(a, b.next);
+            result.next = next;
+            iterations += newIterations;
+        }
+        iterations++;
+        return [result, iterations];
+    }
+
+    getMax() {
+        let max = this.head ? this.head.data.id : 0;
+        let current = this.head;
+        while (current) {
+            if (current.data.id > max) {
+                max = current.data.id;
+            }
+            current = current.next;
+        }
+        return max;
+    }
+
     radixSort() {
-        // Radix sort is generally not implemented for linked lists due to its complexity with non-array structures.
-        return 0;
+        const max = this.getMax();
+        let exp = 1;
+        let iterations = 0;
+        while (Math.floor(max / exp) > 0) {
+            iterations += this.countSort(exp);
+            exp *= 10;
+        }
+        return iterations;
+    }
+
+    countSort(exp) {
+        const output = [];
+        const count = Array(10).fill(0);
+        let iterations = 0;
+
+        let current = this.head;
+        while (current) {
+            const index = Math.floor(current.data.id / exp) % 10;
+            count[index]++;
+            current = current.next;
+            iterations++;
+        }
+
+        for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+            iterations++;
+        }
+
+        current = this.head;
+        while (current) {
+            const index = Math.floor(current.data.id / exp) % 10;
+            output[count[index] - 1] = current.data;
+            count[index]--;
+            current = current.next;
+            iterations++;
+        }
+
+        current = this.head;
+        let i = 0;
+        while (current) {
+            current.data = output[i];
+            current = current.next;
+            i++;
+            iterations++;
+        }
+
+        return iterations;
     }
 }
